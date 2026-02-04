@@ -1,103 +1,110 @@
-# StreamDeck Web App for OBS
+# StreamDeck for OBS
 
-A web-based stream controller that works like an Elgato Stream Deck. Control OBS from any device with a browser - phone, tablet, or computer.
+Control your OBS stream from your phone, tablet, or another screen. Works like an Elgato Stream Deck but free.
 
-## Features
+---
 
-- Dark theme optimized for streaming setups
-- Responsive button grid (works on phones, tablets, desktops)
-- Dynamic scene switching
-- Start/stop streaming and recording
-- Audio source mute toggles
-- Real-time status updates
+## Download
 
-## Requirements
+1. Go to [Releases](https://github.com/doritobread/StreamDeck-OBS/releases)
+2. Download the latest `.zip` file
+3. Extract it to a folder (right-click > Extract All)
 
-- Windows 10/11
-- OBS Studio 28+ (has WebSocket built-in)
-- Both devices on the same network (for phone/tablet access)
+---
 
-## OBS Setup
+## Setup (One Time)
+
+### Step 1: Set up OBS
 
 1. Open **OBS Studio**
-2. Go to **Tools** > **WebSocket Server Settings**
-3. Check **Enable WebSocket server**
-4. Note the **Server Port** (default: 4455)
-5. Optional: Enable authentication and set a password
-6. Click **Apply**
+2. Click **Tools** in the menu bar
+3. Click **WebSocket Server Settings**
+4. Check the box **Enable WebSocket server**
+5. Set a password if you want (optional but recommended)
+6. Click **OK**
 
-## App Configuration
+### Step 2: Configure the app
 
-Edit `appsettings.json` before running:
+1. Open the folder where you extracted the app
+2. Open **appsettings.json** with Notepad
+3. Change these settings:
 
-```json
-{
-  "ObsSettings": {
-    "Host": "localhost",
-    "Port": 4455,
-    "Password": ""
-  }
-}
+```
+"Host": "localhost"        <-- Leave this if OBS is on the same computer
+"Port": 4455               <-- Leave this unless you changed it in OBS
+"Password": ""             <-- Put your OBS password here (between the quotes)
+"TwitchChannel": ""        <-- Put your Twitch username here for chat
 ```
 
-- **Host**: Use `localhost` if OBS is on the same machine, or the IP address of the OBS machine
-- **Port**: Match the port in OBS WebSocket settings (default 4455)
-- **Password**: Leave empty if no authentication, otherwise enter your OBS WebSocket password
+4. Save the file
+
+---
 
 ## Running the App
 
-### From Published Executable
-1. Run `StreamAp.exe`
-2. Open browser to `http://localhost:5111/Home/Dashboard`
-3. Click **Connect** to connect to OBS
+1. Double-click **StreamAp.exe**
+2. A window will pop up - this is normal, keep it open
+3. Open your web browser and go to: **http://localhost:5111**
+4. Click the **Connect** button
 
-### From Source Code
-```bash
-cd StreamAp
-dotnet run
-```
+---
 
-## Accessing from Phone/Tablet
+## Using from Your Phone
 
-1. Find your computer's IP address:
-   - Open Command Prompt
-   - Run `ipconfig`
-   - Look for "IPv4 Address" (e.g., 192.168.1.86)
+1. Make sure your phone is on the same WiFi as your computer
+2. Find your computer's IP address:
+   - Press **Windows key + R**
+   - Type **cmd** and press Enter
+   - Type **ipconfig** and press Enter
+   - Look for **IPv4 Address** (looks like `192.168.1.XXX`)
+3. On your phone's browser, go to: **http://YOUR_IP:5111**
+   - Example: `http://192.168.1.86:5111`
 
-2. On your phone/tablet, open browser and go to:
-   ```
-   http://YOUR_COMPUTER_IP:5111/Home/Dashboard
-   ```
+### If it doesn't work from your phone:
 
-3. If it doesn't connect, allow the app through Windows Firewall:
-   - Open PowerShell as Administrator
-   - Run: `New-NetFirewallRule -DisplayName "StreamDeck Web App" -Direction Inbound -Protocol TCP -LocalPort 5111 -Action Allow`
+Windows might be blocking it. Do this once:
 
-## Firewall Rules
+1. Press **Windows key**, type **firewall**, click **Windows Defender Firewall**
+2. Click **Allow an app or feature through Windows Defender Firewall**
+3. Click **Change settings** (need admin)
+4. Click **Allow another app**
+5. Click **Browse** and find **StreamAp.exe** in your folder
+6. Click **Add**, then check both **Private** and **Public** boxes
+7. Click **OK**
 
-You may need to allow these ports through Windows Firewall:
+---
 
-| Port | Purpose |
-|------|---------|
-| 5111 | Web app (for accessing from other devices) |
-| 4455 | OBS WebSocket (if OBS is on a different machine) |
+## What the Buttons Do
+
+| Button | What it does |
+|--------|--------------|
+| **Connect** | Connects to OBS (click this first) |
+| **Stream** | Starts/stops your stream (turns red when live) |
+| **Record** | Starts/stops recording (turns orange when recording) |
+| **Scene buttons** | Switches between your OBS scenes |
+| **Audio buttons** | Mutes/unmutes audio sources |
+
+---
 
 ## Troubleshooting
 
-**Can't connect to OBS:**
-- Verify OBS is running and WebSocket is enabled
-- Check the Host/Port/Password in `appsettings.json`
-- Make sure OBS WebSocket port (4455) isn't blocked by firewall
+**"Can't connect to OBS"**
+- Make sure OBS is running
+- Make sure WebSocket is enabled in OBS (Tools > WebSocket Server Settings)
+- Check your password matches
 
-**Can't access from phone:**
-- Ensure phone is on the same WiFi network
-- Check that port 5111 is allowed through firewall
-- Verify you're using the correct IP address
+**"Page won't load on phone"**
+- Make sure the app is running on your computer
+- Make sure your phone is on the same WiFi
+- Check the IP address is correct
+- Try the firewall fix above
 
-**Scenes/Audio not showing:**
+**"No scenes showing up"**
 - Click the Connect button first
-- Check browser console (F12) for errors
+- Make sure you're connected (green dot in top right)
 
-## License
+---
 
-MIT - Feel free to modify and share.
+## Questions?
+
+Because I probably have the same question as well. Idk wtf I'm doing. But feel free to open an issue or msg me.
