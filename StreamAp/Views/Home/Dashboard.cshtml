@@ -1,25 +1,52 @@
 @{
     Layout = "_StreamDeckLayout";
     ViewData["Title"] = "Dashboard";
+    var twitchChannel = ViewData["TwitchChannel"]?.ToString() ?? "";
 }
 
-<div class="button-section">
-    <div class="button-section-title">Controls</div>
-    <div class="button-grid" id="controlButtons">
-        <!-- Connect, Stream, Record buttons rendered by JS -->
+<div class="dashboard-layout">
+    <div class="deck-panel">
+        <div class="button-section">
+            <div class="button-section-title">Controls</div>
+            <div class="button-grid" id="controlButtons">
+                <!-- Connect, Stream, Record buttons rendered by JS -->
+            </div>
+        </div>
+
+        <div class="button-section">
+            <div class="button-section-title">Scenes</div>
+            <div class="button-grid" id="sceneButtons">
+                <!-- Scene buttons rendered dynamically by JS -->
+            </div>
+        </div>
+
+        <div class="button-section" id="audioSection" style="display: none;">
+            <div class="button-section-title">Audio</div>
+            <div class="button-grid" id="audioButtons">
+                <!-- Audio source buttons rendered dynamically by JS -->
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-panel" id="chatPanel" style="display: none;">
+        <div class="chat-header">Chat</div>
+        <iframe
+            id="twitchChat"
+            height="100%"
+            width="100%">
+        </iframe>
     </div>
 </div>
 
-<div class="button-section">
-    <div class="button-section-title">Scenes</div>
-    <div class="button-grid" id="sceneButtons">
-        <!-- Scene buttons rendered dynamically by JS -->
-    </div>
-</div>
-
-<div class="button-section" id="audioSection" style="display: none;">
-    <div class="button-section-title">Audio</div>
-    <div class="button-grid" id="audioButtons">
-        <!-- Audio source buttons rendered dynamically by JS -->
-    </div>
-</div>
+<script>
+    (function() {
+        var channel = '@Html.Raw(twitchChannel)';
+        if (channel) {
+            var parent = window.location.hostname;
+            var iframe = document.getElementById('twitchChat');
+            var panel = document.getElementById('chatPanel');
+            iframe.src = 'https://www.twitch.tv/embed/' + channel + '/chat?parent=' + parent + '&darkpopout';
+            panel.style.display = 'flex';
+        }
+    })();
+</script>
