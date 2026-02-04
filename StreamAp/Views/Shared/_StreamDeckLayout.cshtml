@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#0d1117" />
+    <title>@ViewData["Title"] - StreamDeck</title>
+    <link rel="stylesheet" href="~/css/streamdeck.css" asp-append-version="true" />
+</head>
+<body class="streamdeck-theme">
+    <header class="sd-header">
+        <h1 class="sd-title">StreamDeck</h1>
+        <div class="sd-status">
+            <span class="sd-status-dot" id="statusDot"></span>
+            <span id="statusText">Disconnected</span>
+        </div>
+    </header>
+
+    <main class="sd-main">
+        @RenderBody()
+    </main>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="~/js/streamdeck.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

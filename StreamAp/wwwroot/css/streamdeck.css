@@ -1,0 +1,292 @@
+:root {
+    --sd-bg-primary: #0d1117;
+    --sd-bg-secondary: #161b22;
+    --sd-bg-button: #21262d;
+    --sd-bg-button-hover: #30363d;
+    --sd-text-primary: #f0f6fc;
+    --sd-text-secondary: #8b949e;
+    --sd-accent-blue: #58a6ff;
+    --sd-accent-green: #3fb950;
+    --sd-accent-red: #f85149;
+    --sd-accent-orange: #d29922;
+    --sd-border-color: #30363d;
+    --sd-border-radius: 12px;
+    --sd-button-min-size: 90px;
+    --sd-transition: 0.15s ease;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body.streamdeck-theme {
+    background: var(--sd-bg-primary);
+    color: var(--sd-text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.sd-header {
+    background: var(--sd-bg-secondary);
+    border-bottom: 1px solid var(--sd-border-color);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.sd-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.sd-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--sd-text-secondary);
+}
+
+.sd-status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--sd-accent-red);
+    transition: background var(--sd-transition);
+}
+
+.sd-status-dot.connected {
+    background: var(--sd-accent-green);
+}
+
+/* Main content */
+.sd-main {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+}
+
+/* Button grid */
+.button-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--sd-button-min-size), 1fr));
+    gap: 12px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Deck button base */
+.deck-button {
+    aspect-ratio: 1;
+    background: var(--sd-bg-button);
+    border: 1px solid var(--sd-border-color);
+    border-radius: var(--sd-border-radius);
+    color: var(--sd-text-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all var(--sd-transition);
+    min-height: var(--sd-button-min-size);
+    padding: 12px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+.deck-button:hover {
+    background: var(--sd-bg-button-hover);
+    border-color: var(--sd-accent-blue);
+    transform: translateY(-2px);
+}
+
+.deck-button:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.deck-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Button icon */
+.deck-button svg {
+    width: 28px;
+    height: 28px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+}
+
+/* Button label */
+.deck-button-label {
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+/* Button states */
+.deck-button.active-scene {
+    background: var(--sd-accent-blue);
+    border-color: var(--sd-accent-blue);
+}
+
+.deck-button.active-scene:hover {
+    background: #4a93e6;
+}
+
+.deck-button.streaming {
+    background: var(--sd-accent-red);
+    border-color: var(--sd-accent-red);
+    animation: pulse-live 2s infinite;
+}
+
+.deck-button.recording {
+    background: var(--sd-accent-orange);
+    border-color: var(--sd-accent-orange);
+    animation: pulse-recording 1.5s infinite;
+}
+
+.deck-button.muted {
+    opacity: 0.6;
+}
+
+.deck-button.muted svg {
+    color: var(--sd-accent-red);
+}
+
+/* Connection button states */
+.deck-button.connect-btn.connected {
+    background: var(--sd-accent-green);
+    border-color: var(--sd-accent-green);
+}
+
+/* Animations */
+@keyframes pulse-live {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(248, 81, 73, 0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(248, 81, 73, 0); }
+}
+
+@keyframes pulse-recording {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(210, 153, 34, 0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(210, 153, 34, 0); }
+}
+
+/* Section dividers */
+.button-section {
+    margin-bottom: 24px;
+}
+
+.button-section-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--sd-text-secondary);
+    margin-bottom: 12px;
+    padding-left: 4px;
+}
+
+/* Loading spinner */
+.deck-button.loading svg {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Toast notifications */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.toast {
+    background: var(--sd-bg-secondary);
+    border: 1px solid var(--sd-border-color);
+    border-radius: 8px;
+    padding: 12px 20px;
+    color: var(--sd-text-primary);
+    font-size: 14px;
+    animation: toast-in 0.3s ease;
+}
+
+.toast.error {
+    border-color: var(--sd-accent-red);
+}
+
+.toast.success {
+    border-color: var(--sd-accent-green);
+}
+
+@keyframes toast-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive breakpoints */
+
+/* Phone portrait: 3 columns */
+@media (max-width: 480px) {
+    :root {
+        --sd-button-min-size: 80px;
+    }
+
+    .button-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .sd-main {
+        padding: 12px;
+    }
+
+    .deck-button-label {
+        font-size: 11px;
+    }
+}
+
+/* Phone landscape / small tablet: 4 columns */
+@media (min-width: 481px) and (max-width: 768px) {
+    .button-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Tablet: 5 columns */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .button-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* Desktop: 6 columns */
+@media (min-width: 1025px) {
+    .button-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}

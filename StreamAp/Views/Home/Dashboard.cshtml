@@ -1,0 +1,25 @@
+@{
+    Layout = "_StreamDeckLayout";
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="button-section">
+    <div class="button-section-title">Controls</div>
+    <div class="button-grid" id="controlButtons">
+        <!-- Connect, Stream, Record buttons rendered by JS -->
+    </div>
+</div>
+
+<div class="button-section">
+    <div class="button-section-title">Scenes</div>
+    <div class="button-grid" id="sceneButtons">
+        <!-- Scene buttons rendered dynamically by JS -->
+    </div>
+</div>
+
+<div class="button-section" id="audioSection" style="display: none;">
+    <div class="button-section-title">Audio</div>
+    <div class="button-grid" id="audioButtons">
+        <!-- Audio source buttons rendered dynamically by JS -->
+    </div>
+</div>
