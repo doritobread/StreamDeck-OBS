@@ -108,3 +108,7 @@ Windows might be blocking it. Do this once:
 ## Questions?
 
 Because I probably have the same question as well. Idk wtf I'm doing. But feel free to open an issue or msg me.
+
+## WHY?
+
+I wanted to experiment with Claude Code.
