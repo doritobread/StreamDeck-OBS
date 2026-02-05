@@ -4,37 +4,143 @@
     var twitchChannel = ViewData["TwitchChannel"]?.ToString() ?? "";
 }
 
-<div class="dashboard-layout">
-    <div class="deck-panel">
-        <div class="button-section">
-            <div class="button-section-title">Controls</div>
-            <div class="button-grid" id="controlButtons">
-                <!-- Connect, Stream, Record buttons rendered by JS -->
+<div id="pageTabs" class="page-tabs">
+    <!-- Page tabs rendered by JS -->
+</div>
+
+<div class="sd-main">
+    <div class="dashboard-layout">
+        <div class="deck-panel">
+            <div id="statsPanel" class="stats-panel" style="display: none;">
+                <!-- Stats rendered by JS -->
+            </div>
+
+            <div class="button-section">
+                <div class="button-section-title">Controls</div>
+                <div class="button-grid" id="controlButtons">
+                    <!-- Connect, Stream, Record, Replay buttons rendered by JS -->
+                </div>
+            </div>
+
+            <div class="button-section">
+                <div class="button-section-title">Scenes</div>
+                <div class="button-grid" id="sceneButtons">
+                    <!-- Scene buttons rendered dynamically by JS -->
+                </div>
+            </div>
+
+            <div class="button-section" id="sourceSection" style="display: none;">
+                <div class="button-section-title">Sources</div>
+                <div class="button-grid" id="sourceButtons">
+                    <!-- Source visibility buttons rendered by JS -->
+                </div>
+            </div>
+
+            <div class="button-section" id="audioSection" style="display: none;">
+                <div class="button-section-title">Audio</div>
+                <div class="button-grid" id="audioButtons">
+                    <!-- Audio source buttons rendered dynamically by JS -->
+                </div>
+            </div>
+
+            <div class="button-section" id="customSection">
+                <div class="button-section-title">Custom Buttons</div>
+                <div class="button-grid" id="customButtons">
+                    <!-- Custom macro buttons rendered by JS -->
+                </div>
             </div>
         </div>
 
-        <div class="button-section">
-            <div class="button-section-title">Scenes</div>
-            <div class="button-grid" id="sceneButtons">
-                <!-- Scene buttons rendered dynamically by JS -->
-            </div>
-        </div>
-
-        <div class="button-section" id="audioSection" style="display: none;">
-            <div class="button-section-title">Audio</div>
-            <div class="button-grid" id="audioButtons">
-                <!-- Audio source buttons rendered dynamically by JS -->
-            </div>
+        <div class="chat-panel" id="chatPanel" style="display: none;">
+            <div class="chat-header">Chat</div>
+            <iframe
+                id="twitchChat"
+                height="100%"
+                width="100%">
+            </iframe>
         </div>
     </div>
+</div>
 
-    <div class="chat-panel" id="chatPanel" style="display: none;">
-        <div class="chat-header">Chat</div>
-        <iframe
-            id="twitchChat"
-            height="100%"
-            width="100%">
-        </iframe>
+<!-- Button Editor Modal -->
+<div id="buttonEditorModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Edit Button</h2>
+            <button class="modal-close" onclick="StreamDeck.closeButtonEditor()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="editorPageId">
+            <input type="hidden" id="editorButtonId">
+
+            <div class="form-group">
+                <label for="buttonLabel">Label</label>
+                <input type="text" id="buttonLabel" placeholder="Button label">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="buttonIcon">Icon</label>
+                    <select id="buttonIcon">
+                        <option value="zap">Zap</option>
+                        <option value="broadcast">Broadcast</option>
+                        <option value="tv">TV</option>
+                        <option value="mic">Microphone</option>
+                        <option value="volume">Volume</option>
+                        <option value="eye">Eye</option>
+                        <option value="save">Save</option>
+                        <option value="replay">Replay</option>
+                        <option value="settings">Settings</option>
+                        <option value="activity">Activity</option>
+                        <option value="cpu">CPU</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="buttonColor">Color</label>
+                    <input type="color" id="buttonColor" value="#21262d">
+                </div>
+                <div class="form-group">
+                    <label for="buttonTextColor">Text</label>
+                    <input type="color" id="buttonTextColor" value="#f0f6fc">
+                </div>
+            </div>
+
+            <div class="actions-section">
+                <h3>Actions</h3>
+                <div id="actionsList" class="actions-list">
+                    <!-- Actions rendered by JS -->
+                </div>
+
+                <div class="add-action-row">
+                    <select id="newActionType">
+                        <option value="0">Switch Scene</option>
+                        <option value="1">Toggle Source</option>
+                        <option value="2">Toggle Mute</option>
+                        <option value="3">Set Volume</option>
+                        <option value="4">Start Stream</option>
+                        <option value="5">Stop Stream</option>
+                        <option value="6">Toggle Stream</option>
+                        <option value="7">Start Record</option>
+                        <option value="8">Stop Record</option>
+                        <option value="9">Toggle Record</option>
+                        <option value="10">Save Replay</option>
+                        <option value="11">Toggle Filter</option>
+                        <option value="12">Trigger Hotkey</option>
+                        <option value="13">Delay</option>
+                    </select>
+                    <input type="text" id="newActionTarget" placeholder="Target (scene/source name)">
+                    <input type="number" id="newActionDelay" placeholder="Delay (ms)" value="0" min="0" max="10000">
+                    <button type="button" class="btn btn-add" onclick="StreamDeck.addAction()">Add</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" onclick="StreamDeck.deleteButton()" id="deleteButtonBtn">Delete</button>
+            <div>
+                <button type="button" class="btn btn-secondary" onclick="StreamDeck.closeButtonEditor()">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="StreamDeck.saveButton()">Save</button>
+            </div>
+        </div>
     </div>
 </div>
 

@@ -1,0 +1,10 @@
+{
+  "pages": [
+    {
+      "id": "default",
+      "name": "Main",
+      "order": 0,
+      "buttons": []
+    }
+  ]
+}
